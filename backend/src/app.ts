@@ -1,5 +1,7 @@
 import express from "express";
 import authRoutes from "./routes/authRoutes";
+import productRoutes from "./routes/productRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
 
 const app = express();
 
@@ -7,6 +9,8 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/category", categoryRoutes);
 
 //Test Route
 app.get("/", (req, res) => {
