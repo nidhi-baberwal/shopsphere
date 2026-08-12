@@ -47,7 +47,7 @@ export const register = async (
         });
 
     } catch(error){
-        console.log(error);
+        console.error(error);
         return res.status(500).json({
             message: "Something went wrong"
         });
@@ -113,7 +113,55 @@ export const login = async(
      });
      
     } catch(error){
-        console.log(error);
+        console.error(error);
+        return res.status(500).json({
+            message: "Something went wrong",
+            error: error instanceof Error ? error.message : error
+        });
+    }
+};
+
+// get currently logged-in user
+export const getMe = async (
+    req: Request,
+    res: Response
+) => {
+    try {
+        // userId was added by authMiddleware
+        const userId = req.userId;
+
+        if (!userId) {
+            return res.status(401).json({
+                message: "Unauthorized"
+            });
+        }
+
+        // find the logged-in user in database
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                createdAt: true
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        return res.status(200).json({
+            user
+        });
+
+    } catch (error) {
+        console.error(error);
+
         return res.status(500).json({
             message: "Something went wrong"
         });
