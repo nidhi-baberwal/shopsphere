@@ -144,18 +144,28 @@ export const getOrderById = async(
             });
         }
 
-        const orders = await prisma.order.findFirst({
+        const order = await prisma.order.findFirst({
             where: {
                 id: orderId,
                 userId: userId,
             },
             include: {
-                items: true,
+                items: {
+                    include: {
+                        product: true,
+                    },
+                },
             },
         });
 
+        if(!order){
+            return res.status(404).json({
+                message: "Order not found",
+            });
+        }
+
         return res.status(200).json({
-            orders,
+            order,
         });
 
     } catch (error) {
@@ -177,6 +187,20 @@ export const updateOrderStatus = async(
         const userId = req.userId;
         const orderId = Number(req.params.id);
         const{ status } = req.body;
+
+        const validStatuses = [
+           "PENDING",
+           "PROCESSING",
+           "SHIPPED",
+           "DELIVERED",
+           "CANCELLED",
+        ];
+
+        if (!validStatuses.includes(status)) {
+            return res.status(400).json({
+                message: "Invalid order status",
+            });
+        }
 
         if(!userId){
             return res.status(401).json({
