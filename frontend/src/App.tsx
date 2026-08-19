@@ -5,10 +5,13 @@ import Register from "./pages/Register";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
    <BrowserRouter>
+   <Navbar/>
+   
    <Routes>
     <Route path="/" element={<Home />} /> 
     <Route path="/login" element={<Login/>} /> 
