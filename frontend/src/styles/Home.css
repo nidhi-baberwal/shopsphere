@@ -1,0 +1,78 @@
+.hero{
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 80px;
+    background-size: cover;
+    background-position: center;
+    background-image: url("https://images.unsplash.com/photo-1441986300917-64674bd600d8");
+}
+
+.hero-content{
+    max-height: 500px;
+    text-align: center;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-content h1{
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero-content p{
+    font-size: 18px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.hero-content button{
+    padding: 12px 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.categories{
+    padding: 60px 80px;
+    text-align: center;
+}
+
+.categories h2{
+    font-size: 32px;
+    margin-bottom: 40px;
+}
+
+.category-list{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.category-card{
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.category-card img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.category-card h3{
+    position: absolute;
+    bottom: 20px;
+    left:50%;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 10px 25px;
+    background-color: white;
+    font-size: 22px;
+}
