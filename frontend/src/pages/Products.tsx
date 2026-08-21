@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Product, ProductsResponse } from "../types/product";
+import "../styles/Products.css";
 
 const Products = () => {
 
@@ -25,8 +26,25 @@ const Products = () => {
     console.log(products);
 
     return (
-       <main>
+       <main className="product-page">
         <h1>Products</h1>
+
+        <div className="product-grid">
+        {products.map((product) => (
+            <div className="product-card" key={product.id}>
+                <img 
+                src={product.image}
+                alt={product.name}
+                />
+
+                <div className="product-info">
+                <h2>{product.name}</h2>
+                <p className="product-brand">{product.brand}</p>
+                <p className="product-price">£{product.price}</p>
+            </div>
+            </div>
+        ))}
+        </div>
        </main>
     );
 }
