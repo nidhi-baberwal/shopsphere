@@ -17,6 +17,8 @@
     border: 1px solid #ddd;
     border-radius: 10px;
     overflow: hidden;
+    text-decoration: none;
+    color: inherit;
     background-color: #fff;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Product, ProductsResponse } from "../types/product";
 import "../styles/Products.css";
+import { Link } from "react-router-dom";
 
 const Products = () => {
 
@@ -31,7 +32,10 @@ const Products = () => {
 
         <div className="product-grid">
         {products.map((product) => (
-            <div className="product-card" key={product.id}>
+            <Link 
+            to={`/products/${product.id}`} 
+            className="product-card" 
+            key={product.id}>
                 <img 
                 src={product.image}
                 alt={product.name}
@@ -42,7 +46,7 @@ const Products = () => {
                 <p className="product-brand">{product.brand}</p>
                 <p className="product-price">£{product.price}</p>
             </div>
-            </div>
+            </Link>
         ))}
         </div>
        </main>
