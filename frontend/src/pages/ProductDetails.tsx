@@ -32,6 +32,8 @@ const ProductDetails = () => {
         return <p>...Loading</p>
     }
 
+   
+
     return (
         <main className="product-details">
             <div className="product-details-image">
