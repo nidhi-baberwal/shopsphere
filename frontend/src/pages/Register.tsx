@@ -8,10 +8,13 @@ const Register = () => {
     const[password, setPassword] = useState("");
 
     const handleRegister = async() => {
-     const response = await fetch("http://localhost:5000/api/auth/register", {
+        try{
+            console.log("Register button clicked");
+
+            const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: {
-            "content-type": "application/json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             name,
@@ -21,34 +24,53 @@ const Register = () => {
     });
      const result = await response.json();
 
-     console.log(result);
+     console.log("Response:", result);
+
+     if(!response.ok){
+        throw new Error(result.message || "Registration failed");
+     }
+
+     console.log("Registration successful");
+
+} catch(error) {
+    console.error("Registration error:", error);
 }
+};
 
     return (
         <main className="register-page">
-            <form className="register-form">
+            <form 
+            className="register-form"
+            onSubmit={(e) => {
+                e.preventDefault();
+                handleRegister();
+            }}
+            >
         <h1>Register</h1>
 
         <input 
-         onChange={(e) => setName(e.target.value)}
          type="text"
          placeholder="Your Name"
+         value={name}
+         onChange={(e) => setName(e.target.value)}
         />
 
         <input
-        onChange={(e) => setEmail(e.target.value)}
         type="email"
         placeholder="Enter Your Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
-        onChange={(e) => setPassword(e.target.value)}
         type="password"
         placeholder="Enter Your Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button onClick={handleRegister}>
-            Register
+        <button >
+            Create Account
         </button>
 
         </form>
