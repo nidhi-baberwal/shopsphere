@@ -32,7 +32,29 @@ const ProductDetails = () => {
         return <p>...Loading</p>
     }
 
-   
+   const handleCart = async() => {
+    try{
+        const token = localStorage.getItem("token");
+
+        const response = await fetch("http://localhost:5000/api/cart/items", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                productId: Number(id),
+                quantity: 1,
+            }),
+        });
+
+        const result = await response.json();
+        console.log(result);
+
+    } catch(error){
+        console.error(error);
+    }
+   }
 
     return (
         <main className="product-details">
@@ -60,6 +82,13 @@ const ProductDetails = () => {
            <p>
             Stock: {product.stock}
            </p>
+
+           <button 
+           className="add-to-cart-btn"
+           onClick={handleCart}
+           >
+            Add to Cart
+           </button>
 
            </div>
         </main>
