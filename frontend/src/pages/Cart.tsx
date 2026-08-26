@@ -76,6 +76,33 @@ const Cart = () => {
     }
  }
 
+ const handleRemoveItem = async(cartItem: CartItem) => {
+    try{
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(`http://localhost:5000/api/cart/${cartItem.productId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+           });
+
+        const result = await response.json();
+        console.log(result); 
+
+        setCartItems((currentItem) => {
+            return currentItem.filter((item) => {
+                item.id !== cartItem.id
+            })
+        });
+
+    } catch(error){
+        console.error(error);
+    }
+ }
+
  const cartTotal = cartItems.reduce((total, cartItem) => {
        return total + Number(cartItem.product.price) * cartItem.quantity;
  }, 0);
@@ -103,6 +130,10 @@ const Cart = () => {
 
         <button onClick={() => handleQuantityChange(cartItem, "decrease")}>
             -
+        </button>
+
+        <button onClick={() => handleRemoveItem(cartItem)}>
+           Remove
         </button>
 
         <p>Total: £{Number(cartItem.product.price) * cartItem.quantity}</p>
