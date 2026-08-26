@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "../styles/login.css";
 
@@ -5,6 +6,7 @@ const Login = () => {
 
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async() => {
         try{
@@ -27,6 +29,8 @@ const Login = () => {
 
              localStorage.setItem("token", result.token);
 
+              navigate("/");
+
              console.log("Login successful");
 
         } catch(error){
@@ -35,7 +39,8 @@ const Login = () => {
 
     }
 
-    return (
+   
+   return (
         <main className="login-page">
 
             <form

@@ -3,7 +3,11 @@ import { useParams} from "react-router-dom";
 import type { Product } from "../types/product";
 import "../styles/ProductDetails.css";
 
-const ProductDetails = () => {
+interface ProductDetailsProps {
+        setCartCount: React.Dispatch<React.SetStateAction<number>>;
+    }
+
+const ProductDetails = ({setCartCount}: ProductDetailsProps) => {
 
     const { id } = useParams();
 
@@ -49,6 +53,13 @@ const ProductDetails = () => {
         });
 
         const result = await response.json();
+
+        if(!response.ok){
+            throw new Error(result.message || "Cart failed")
+        }
+
+        setCartCount((previousCount) => previousCount + 1);
+
         console.log(result);
 
     } catch(error){
