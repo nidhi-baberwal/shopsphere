@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import type { CartItem } from "../types/cart";
 
-const Cart = () => {
+interface CartProps{
+    setCartCount: React.Dispatch<React.SetStateAction<number>>
+}
+
+const Cart = ({setCartCount} : CartProps) => {
     const[cartItems, setCartItems] = useState<CartItem[]>([]);
 
    useEffect(() => {
@@ -25,12 +29,20 @@ const Cart = () => {
 
             setCartItems(result.cart.items);
 
+            const totalQuantity = result.cart.items.reduce(
+                (total:number, item: CartItem) => 
+                    total + item.quantity,
+                0
+            );
+
+            setCartCount(totalQuantity);
+
         } catch(error){
             console.error(error);
         }
     };
          fetchProducts();
- }, []);
+ }, [setCartCount]);
 
  const handleQuantityChange = async(
     cartItem: CartItem,
@@ -71,6 +83,12 @@ const Cart = () => {
                 })
             );
 
+            setCartCount((previousCount) => 
+             action === "increase"
+            ? previousCount + 1
+            : previousCount -1
+            );
+
     } catch(error) {
         console.error(error);
     }
@@ -92,11 +110,11 @@ const Cart = () => {
         const result = await response.json();
         console.log(result); 
 
-        setCartItems((currentItem) => {
-            return currentItem.filter((item) => {
+        setCartItems((currentItem) => 
+             currentItem.filter((item) => {
                 item.id !== cartItem.id
             })
-        });
+        );
 
     } catch(error){
         console.error(error);

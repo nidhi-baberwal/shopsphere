@@ -22,9 +22,13 @@ function App() {
     <Route path="/login" element={<Login/>} /> 
     <Route path="/register" element={<Register />} /> 
     <Route path="/products" element={<Products />} /> 
+
     <Route path="/products/:id" 
     element={<ProductDetails setCartCount={setCartCount} />} />
-    <Route path="/cart" element={<Cart/>} />  
+
+    <Route path="/cart" 
+    element={<Cart setCartCount={setCartCount}/>} />
+
     <Route path="/orders" element={<Orders />} /> 
    </Routes>
    
