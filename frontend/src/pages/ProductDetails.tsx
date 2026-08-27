@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type { Product } from "../types/product";
 import "../styles/ProductDetails.css";
 
@@ -12,6 +13,8 @@ const ProductDetails = ({setCartCount}: ProductDetailsProps) => {
     const { id } = useParams();
 
     const[product, setProduct] = useState<Product | null>(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProduct = async() => {
@@ -53,6 +56,7 @@ const ProductDetails = ({setCartCount}: ProductDetailsProps) => {
         });
 
         const result = await response.json();
+        console.log(result);
 
         if(!response.ok){
             throw new Error(result.message || "Cart failed")
@@ -60,7 +64,7 @@ const ProductDetails = ({setCartCount}: ProductDetailsProps) => {
 
         setCartCount((previousCount) => previousCount + 1);
 
-        console.log(result);
+        navigate("/cart");
 
     } catch(error){
         console.error(error);

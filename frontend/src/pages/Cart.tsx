@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { CartItem } from "../types/cart";
 
 interface CartProps{
@@ -7,6 +8,8 @@ interface CartProps{
 
 const Cart = ({setCartCount} : CartProps) => {
     const[cartItems, setCartItems] = useState<CartItem[]>([]);
+
+    const navigate = useNavigate();
 
    useEffect(() => {
     const fetchProducts = async() => {
@@ -125,6 +128,37 @@ const Cart = ({setCartCount} : CartProps) => {
        return total + Number(cartItem.product.price) * cartItem.quantity;
  }, 0);
 
+ const handleCheckout = async() => {
+    try{
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch("http://localhost:5000/api/order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+        });
+
+        const result = await response.json();
+        console.log("Response status:", response.status);
+        console.log("Response OK:", response.ok);
+        console.log("Result:", result);
+        
+
+        if(response.ok){
+        console.log("Navigating to orders...");
+        setCartItems([]);
+        setCartCount(0);
+        navigate("/orders");
+        }
+
+    } catch(error) {
+        console.error(error);
+    }
+ }
+
     return (
         <main>
         <h1>Your Cart</h1>
@@ -162,7 +196,12 @@ const Cart = ({setCartCount} : CartProps) => {
 
         <p> Cart Total: £{cartTotal.toFixed(2)} </p>
 
-        <button>Checkout</button>
+        {cartItems.length > 0 && (
+            <button onClick={handleCheckout}>
+            Checkout
+        </button>
+        )}
+
         </main>
     );
 }

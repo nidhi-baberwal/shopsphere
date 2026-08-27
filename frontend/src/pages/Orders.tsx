@@ -1,6 +1,8 @@
-function Orders() {
+const Orders = () => {
     return (
-        <h1>Orders page</h1>
+        <main>
+        <h1>Your Orders</h1>
+        </main>
     );
 }
 
