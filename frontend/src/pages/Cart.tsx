@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { CartItem } from "../types/cart";
+import "../styles/Cart.css";
 
 interface CartProps{
     setCartCount: React.Dispatch<React.SetStateAction<number>>
@@ -55,7 +56,7 @@ const Cart = ({setCartCount} : CartProps) => {
     const newQuantity = 
         action=== "increase" 
             ? cartItem.quantity + 1
-            : cartItem.quantity - 1;
+            : Math.max(1, cartItem.quantity - 1);
 
     try{
         const token = localStorage.getItem("token");
@@ -114,9 +115,11 @@ const Cart = ({setCartCount} : CartProps) => {
         console.log(result); 
 
         setCartItems((currentItem) => 
-             currentItem.filter((item) => {
-                item.id !== cartItem.id
-            })
+             currentItem.filter((item) => item.id !== cartItem.id)
+        );
+
+        setCartCount((previousCount) => 
+            previousCount - cartItem.quantity
         );
 
     } catch(error){
@@ -160,49 +163,76 @@ const Cart = ({setCartCount} : CartProps) => {
  }
 
     return (
-        <main>
+        <main className="cart-page">
         <h1>Your Cart</h1>
 
+        <div className="cart-container">
+
         {cartItems.map((cartItem) => (
-            <div key ={cartItem.id}>
+            <div className="cart-item"
+            key ={cartItem.id}>
+
         <img
+        className="cart-item-image"
         src={cartItem.product.image}
         alt={cartItem.product.name}
         />
 
+        <div className="cart-item-details">
+
         <h2>{cartItem.product.name}</h2>
 
-        <p>£{cartItem.product.price}</p>
+        <p className="cart-item-price">
+            £{cartItem.product.price}
+        </p>
 
-        <button onClick={() => handleQuantityChange(cartItem, "increase")}>
-            +
-        </button>
-
-        <p>{cartItem.quantity}</p>
+        <div className="quantity-controls">
 
         <button onClick={() => handleQuantityChange(cartItem, "decrease")}>
             -
         </button>
 
-        <button onClick={() => handleRemoveItem(cartItem)}>
+        <span>{cartItem.quantity}</span>
+
+        <button onClick={() => handleQuantityChange(cartItem, "increase")}>
+            +
+        </button>
+
+    </div>    
+
+        <button
+         className="remove-button"
+         onClick={() => handleRemoveItem(cartItem)}>
            Remove
         </button>
 
-        <p>Total: £{Number(cartItem.product.price) * cartItem.quantity}</p>
+    </div>    
 
-       </div>
+        <p className="item-total">
+            Total: £{Number(cartItem.product.price) * cartItem.quantity}</p>
+
+    </div>
 
         ))}
 
-        <p> Cart Total: £{cartTotal.toFixed(2)} </p>
+    </div>
+
+    <div className="cart-summary">
+        <p> Cart Total: 
+            <strong> £{cartTotal.toFixed(2)} </strong>
+        </p>
 
         {cartItems.length > 0 && (
-            <button onClick={handleCheckout}>
+            <button
+            className="checkout-button" 
+            onClick={handleCheckout}>
             Checkout
         </button>
         )}
 
-        </main>
+    </div>
+
+</main>
     );
 }
 
