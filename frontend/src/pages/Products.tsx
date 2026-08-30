@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import type { Product, ProductsResponse } from "../types/product";
 import "../styles/Products.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Products = () => {
+
+    const { categoryId } = useParams();
 
     const[products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
         const fetchProducts = async() => {
             try{
-                const response = await fetch("http://localhost:5000/api/products");
+                const response = await fetch(
+                    `http://localhost:5000/api/products/category/${categoryId}`
+                );
 
                 const data: ProductsResponse = await response.json();
 
@@ -22,7 +26,7 @@ const Products = () => {
         };
 
         fetchProducts();
-    }, []);
+    }, [categoryId]);
 
     console.log(products);
 
