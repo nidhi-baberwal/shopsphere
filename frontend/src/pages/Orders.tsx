@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Order } from "../types/order";
+import "../styles/Orders.css";
 
 
 const Orders = () => {
@@ -31,32 +32,78 @@ const Orders = () => {
     }, []);
     
     return (
-        <main>
-        <h1>Your Orders</h1>
+        <main className="orders-page">
         
+        <div className="orders-header">
+            <h1>Your Orders</h1>
+            <p>Track and view your recent purchases</p>
+        </div>
+
+
+        <div className="orders-container">
         {orders.map((order) => (
-            <div key={order.id}>
-                <h2>Order #{order.id} </h2>
+            <div className="order-card" key={order.id}>
 
-                <p>Total: £{order.totalAmount}</p>
+                <div className="order-header">
 
-                <p>Status: {order.status} </p>
+                    <div>
+                        <span className="order-label">Order</span>
+                        <h2>Order #{order.id} </h2>
+                    </div>
 
-                <p>
-                    Date: {new Date(order.createdAt).toLocaleDateString()}
-                </p>
+                    <span className={`order-status ${order.status.toLowerCase()}`}>
+                        {order.status}
+                    </span>
 
-                {order.items.map((item) => (
-                    <div key={item.id}>
-                        <p>Product ID: {item.productId}</p>
-                        <p>Quantity: {item.quantity}</p>
-                        <p>Price: £{item.price}</p>
+                </div>
+
+                <div className="order-info">
+
+                    <div>
+                        <span>Order Date</span>
+                        <strong>
+                            {new Date(order.createdAt).toLocaleDateString()}
+                        </strong>
+                    </div> 
+
+                    <div>
+                        <span>Total Amount</span>
+                        <strong>{order.totalAmount}</strong>
+                    </div>
+
+                </div>  
+
+                <div className="order-items">
+
+                    <h3>Order Items</h3> 
+
+                    {order.items.map((item) => (
+                    <div className="order-item" key={item.id}>
+
+                        <div className="order-icon">
+                            🛍️ 
+                        </div>
+
+                        <div className="item-details">
+                        <strong>Product #{item.productId}</strong>
+                        <span>Quantity: {item.quantity}</span>
+                        </div>
+
+                        <strong className="item-price">
+                            £{item.price}
+                        </strong>
+
                     </div>
                 ))}
+
+                </div>
             </div>
         ))}
+
+        </div>
+
         </main>
     );
-}
+};
 
 export default Orders;
