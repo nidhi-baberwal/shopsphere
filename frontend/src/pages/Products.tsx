@@ -48,7 +48,7 @@ const Products = () => {
                 <div className="product-info">
                 <h2>{product.name}</h2>
                 <p className="product-brand">{product.brand}</p>
-                <p className="product-price">£{product.price}</p>
+                <p className="product-price">£{Number(product.price).toFixed(2)}</p>
             </div>
             </Link>
         ))}

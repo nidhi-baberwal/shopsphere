@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+    const navigate = useNavigate();
     return (
       <main>
         <section className="hero">
@@ -12,7 +15,9 @@ const Home = () => {
                     Explore the latest fashion trends and find products you'll love.
                 </p>
 
-                <button>Shop Now</button>
+                <button onClick={() => navigate("/products")}>
+                    Shop Now
+                </button>
             </div>
 
         </section>

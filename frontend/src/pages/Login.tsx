@@ -34,6 +34,7 @@ const Login = () => {
              console.log("Login successful");
 
         } catch(error){
+            alert("Login unsuccessful. Please check your email and password.");
             console.log(error);
         }
 
