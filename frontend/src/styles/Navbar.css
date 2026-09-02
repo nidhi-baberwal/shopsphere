@@ -1,4 +1,6 @@
 .navbar{
+    height: 55px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,6 +16,7 @@
 
 .navbar-links{
     display: flex;
+    align-items: center;
     gap: 24px;
 }
 
