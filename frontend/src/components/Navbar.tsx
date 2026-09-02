@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
+import { 
+    FaHome,
+    FaUser,
+    FaUserPlus,
+    FaBoxOpen,
+    FaShoppingCart,
+    FaClipboardList }
+    from "react-icons/fa";
 
 interface NavbarProps{
     cartCount: number
@@ -11,12 +19,35 @@ const Navbar = ({cartCount} : NavbarProps) => {
             <Link to="/" className="navbar-logo">Shopsphere</Link>
 
             <div className="navbar-links">
-                <Link to="/">Home</Link>
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
-                <Link to="/products">Products</Link>
-                <Link to="/cart">Cart {cartCount}</Link>
-                <Link to="/orders">Orders</Link>
+                <Link to="/">
+                  <FaHome className="nav-icon" />
+                   Home
+                </Link>
+
+                <Link to="/login">
+                  <FaUser className="nav-icon" />
+                  Login
+                </Link>
+
+                <Link to="/register">
+                  <FaUserPlus className="nav-icon" />
+                   Register
+                </Link>
+
+                <Link to="/products">
+                  <FaBoxOpen className="nav-icon" />
+                  Products
+                </Link>
+
+                <Link to="/cart">
+                  <FaShoppingCart className="nav-icon" />
+                  Cart {cartCount}
+                </Link>
+
+                <Link to="/orders">
+                   <FaClipboardList className="nav-icon" />
+                   Orders
+                </Link>
                 
             </div>
         </nav>

@@ -18,6 +18,13 @@
 }
 
 .navbar-links a{
+    display: flex;
+    align-items: center;
+    gap: 6px;
     text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-icon{
     font-size: 16px;
 }
