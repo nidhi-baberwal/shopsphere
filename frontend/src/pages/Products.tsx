@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Product, ProductsResponse } from "../types/product";
 import "../styles/Products.css";
 import { Link, useParams } from "react-router-dom";
+import API_URL from "../config/api";
 
 const Products = () => {
 
@@ -13,7 +14,7 @@ const Products = () => {
         const fetchProducts = async() => {
             try{
                 const response = await fetch(
-                    `http://localhost:5000/api/products/category/${categoryId}`
+                    `${API_URL}/api/products/category/${categoryId}`
                 );
 
                 const data: ProductsResponse = await response.json();

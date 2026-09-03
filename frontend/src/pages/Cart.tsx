@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { CartItem } from "../types/cart";
 import "../styles/Cart.css";
+import API_URL from "../config/api";
 
 interface CartProps{
     setCartCount: React.Dispatch<React.SetStateAction<number>>
@@ -18,7 +19,7 @@ const Cart = ({setCartCount} : CartProps) => {
         try{
             const token = localStorage.getItem("token");
 
-            const response = await fetch("http://localhost:5000/api/cart", {
+            const response = await fetch(`${API_URL}/api/cart`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,7 +62,7 @@ const Cart = ({setCartCount} : CartProps) => {
     try{
         const token = localStorage.getItem("token");
 
-        const response = await fetch(`http://localhost:5000/api/cart/${cartItem.productId}`, {
+        const response = await fetch(`${API_URL}/api/cart/${cartItem.productId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -103,7 +104,7 @@ const Cart = ({setCartCount} : CartProps) => {
 
         const token = localStorage.getItem("token");
 
-        const response = await fetch(`http://localhost:5000/api/cart/${cartItem.productId}`, {
+        const response = await fetch(`${API_URL}/api/cart/${cartItem.productId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -136,7 +137,7 @@ const Cart = ({setCartCount} : CartProps) => {
 
         const token = localStorage.getItem("token");
 
-        const response = await fetch("http://localhost:5000/api/order", {
+        const response = await fetch(`${API_URL}/api/order`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

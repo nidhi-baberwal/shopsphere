@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Order } from "../types/order";
 import "../styles/Orders.css";
+import API_URL from "../config/api";
 
 
 const Orders = () => {
@@ -12,7 +13,7 @@ const Orders = () => {
             try{
 
                 const token = localStorage.getItem("token");
-                const response = await fetch("http://localhost:5000/api/order", {
+                const response = await fetch(`${API_URL}/api/order`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

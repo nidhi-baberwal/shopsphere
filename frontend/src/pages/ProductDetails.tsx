@@ -3,6 +3,7 @@ import { useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import type { Product } from "../types/product";
 import "../styles/ProductDetails.css";
+import API_URL from "../config/api";
 
 interface ProductDetailsProps {
         setCartCount: React.Dispatch<React.SetStateAction<number>>;
@@ -20,7 +21,7 @@ const ProductDetails = ({setCartCount}: ProductDetailsProps) => {
         const fetchProduct = async() => {
             try{
                 const response = await 
-                          fetch(`http://localhost:5000/api/products/${id}`);
+                          fetch(`${API_URL}/api/products/${id}`);
 
                 const data = await response.json();
 
@@ -43,7 +44,7 @@ const ProductDetails = ({setCartCount}: ProductDetailsProps) => {
     try{
         const token = localStorage.getItem("token");
 
-        const response = await fetch("http://localhost:5000/api/cart/items", {
+        const response = await fetch(`${API_URL}/api/cart/items`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
