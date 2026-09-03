@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "../styles/Register.css";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+
+    const navigate = useNavigate();
 
     const[name, setName] = useState("");
     const[email, setEmail] = useState("");
@@ -31,6 +34,8 @@ const Register = () => {
      }
 
      console.log("Registration successful");
+
+     navigate("/login");
 
 } catch(error) {
     console.error("Registration error:", error);

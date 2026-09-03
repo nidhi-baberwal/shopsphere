@@ -88,6 +88,32 @@ export const addToCart = async(
             });
         }
 
+        //check if product is already in cart
+         const existingCartItem = await prisma.cartItem.findFirst({
+            where: {
+                cartId: cart.id,
+                productId,
+            },
+        });
+
+        //if product already exists, increase quantity
+            if(existingCartItem){
+            const updatedCartItem = await prisma.cartItem.update({
+                where: {
+                    id: existingCartItem.id,
+                },
+                data: {
+                    quantity: existingCartItem.quantity + quantity,
+                },
+            });
+
+            return res.status(200).json({
+                message: "Cart quantity updated successfully",
+                cartItem: updatedCartItem,
+            });
+        }
+
+        //if product doesn't exist, create new cartItem
         const cartItem = await prisma.cartItem.create({
             data: {
                 cartId: cart.id,
@@ -95,6 +121,8 @@ export const addToCart = async(
                 quantity,
             },
         });
+
+       
 
         return res.status(200).json({
             message: "Product added to cart successfully",

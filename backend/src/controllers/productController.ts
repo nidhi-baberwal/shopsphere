@@ -67,6 +67,45 @@ export const createProduct = async(
     }
 };
 
+// get products by category
+export const getProductsByCategory = async (
+    req: Request,
+    res: Response
+) => {
+    try {
+
+        const { categoryId } = req.params;
+
+        const id = Number(categoryId);
+
+         if (!categoryId || Number.isNaN(id)) {
+            return res.status(400).json({
+                message: "Invalid category ID",
+            });
+        }
+
+        const products = await prisma.product.findMany({
+            where: {
+                categoryId: Number(categoryId),
+            },
+            include: {
+                category: true,
+            },
+        });
+
+        return res.status(200).json({
+            products,
+        });
+
+    } catch (error) {
+        console.error("GET PRODUCTS BY CATEGORY ERROR:", error);
+
+        return res.status(500).json({
+            message: "Failed to fetch products by category",
+        });
+    }
+};
+
 //get only one product
 export const getProductById = async(
     req: Request,
@@ -79,6 +118,9 @@ export const getProductById = async(
         const product = await prisma.product.findUnique({
             where: {
                 id: Number(id),
+            },
+            include: {
+              category: true,
             },
         });
         
@@ -172,6 +214,38 @@ export const deleteProduct = async (
 
     return res.status(500).json({
       message: "Failed to delete product",
+    });
+  }
+};
+
+//bulk update product images
+export const updateProductImages = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { products } = req.body;
+
+    for (const product of products) {
+      await prisma.product.update({
+        where: {
+          id: product.id,
+        },
+        data: {
+          image: product.image,
+        },
+      });
+    }
+
+    return res.status(200).json({
+      message: "Product images updated successfully",
+    });
+
+  } catch (error) {
+    console.error("BULK IMAGE UPDATE ERROR:", error);
+
+    return res.status(500).json({
+      message: "Failed to update product images",
     });
   }
 };
